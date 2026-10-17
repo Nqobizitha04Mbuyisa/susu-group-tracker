@@ -103,4 +103,13 @@ class AppTest {
         assertThrows(IllegalArgumentException.class,
                 () -> service.recordContribution("Alice", money("0.00")));
     }
+    @Test
+    void shouldRejectAddingMembersAfterFirstWeekCloses() {
+    service.recordContribution("Alice", money("100.00"));
+    service.recordContribution("Bob", money("100.00"));
+    service.closeWeek();
+
+    assertThrows(IllegalStateException.class,
+            () -> service.addMember("Charlie"));
+}
 }
